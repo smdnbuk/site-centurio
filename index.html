@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html class="light" lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Centurio Stratégie — Automatisation &amp; Logiciels sur Mesure</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-surface-variant":        "#A0A0A0",
+            "surface-container-low":     "#242424",
+            "surface-container-high":    "#333333",
+            "primary-fixed-dim":         "#D4AF37",
+            "surface-container":         "#2A2A2A",
+            "surface":                   "#1A1A1A",
+            "surface-container-lowest":  "#121212",
+            "on-surface":                "#E1E1E1",
+            "primary":                   "#D4AF37",
+            "secondary":                 "#8E8E8E",
+            "on-primary":                "#1A1A1A",
+            "surface-container-highest": "#404040",
+            "outline-variant":           "#404040",
+            "outline":                   "#666666",
+            "tertiary":                  "#D4AF37",
+            "primary-container":         "#2A2100",
+            "secondary-container":       "#333333",
+            "background":                "#1c1c1e"
+          },
+          fontFamily: {
+            "headline": ["Cormorant Garamond", "serif"],
+            "body":     ["Manrope", "sans-serif"],
+            "label":    ["Manrope", "sans-serif"]
+          },
+          borderRadius: { "DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px" },
+        },
+      },
+    }
+  </script>
+
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- Header -->
+<header class="fixed top-0 w-full z-50 nav-glass border-b border-white/[0.06]">
+  <nav class="flex justify-between items-center max-w-7xl mx-auto px-8 h-20">
+    <div class="flex items-center gap-0">
+      <img src="logo.png" alt="Centurio" style="height:42px;width:auto;"/>
+      <span class="font-serif text-xl font-semibold hidden sm:block" style="letter-spacing:0.06em; margin-left:-4px; background: linear-gradient(to right, #d5bd77, #b08a45); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">enturio Stratégie</span>
+    </div>
+    <div class="hidden md:flex items-center gap-10">
+      <a class="text-secondary font-medium uppercase tracking-[0.12em] text-[0.7rem] hover:text-primary transition-colors duration-300" href="#services">Services</a>
+      <a class="text-secondary font-medium uppercase tracking-[0.12em] text-[0.7rem] hover:text-primary transition-colors duration-300" href="#produits">Produits</a>
+      <a class="text-secondary font-medium uppercase tracking-[0.12em] text-[0.7rem] hover:text-primary transition-colors duration-300" href="#resultats">Résultats</a>
+    </div>
+    <div class="flex items-center gap-4">
+      <a class="hidden sm:block text-secondary font-medium uppercase tracking-[0.12em] text-[0.7rem] hover:text-primary transition-colors duration-300" href="#audit">Contact</a>
+      <a class="text-on-primary px-6 py-2.5 text-[0.75rem] font-bold tracking-widest uppercase transition-all hover:brightness-110 active:scale-95" href="#audit" style="background:linear-gradient(135deg,#a8873a 0%,#c9a84c 40%,#a8873a 60%,#7a5a1e 100%);">Audit Gratuit</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <!-- Hero Section -->
+  <section class="relative min-h-screen flex items-center overflow-hidden" style="background:#0d0d0d; padding-top:80px;" id="hero">
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Vignette -->
+    <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 80% 70% at 40% 50%, transparent 40%, rgba(10,10,10,0.85) 100%);"></div>
+
+    <div class="max-w-4xl mx-auto px-8 w-full flex flex-col items-center text-center relative z-10">
+      <span class="text-primary font-label text-[0.68rem] uppercase tracking-[0.28em] mb-8 block">Command &amp; Control</span>
+      <h1 class="hero-title font-serif text-2xl md:text-3xl lg:text-4xl font-semibold leading-[1.2] mb-6" style="letter-spacing:-0.01em">
+        Cabinet spécialisé dans l'automatisation des processus métier et le développement de logiciels sur mesure.
+      </h1>
+      <p class="text-secondary text-sm md:text-base font-light max-w-lg leading-relaxed mb-10" style="font-family:'Manrope',sans-serif">
+        Nous transformons vos flux de travail manuels en systèmes intelligents et performants.
+      </p>
+      <div class="flex flex-wrap justify-center gap-5">
+        <div id="btn-wrap" style="position:relative; display:inline-block;">
+          <a id="btn-transform" class="font-bold text-sm tracking-widest uppercase" href="#audit" style="padding:1rem 2rem; background:linear-gradient(135deg,#a8873a 0%,#c9a84c 40%,#a8873a 60%,#7a5a1e 100%); color:#1A1A1A; display:inline-block; text-decoration:none;">
+            Engager la Transformation
+          </a>
+          <canvas id="tf-canvas" style="position:absolute;top:0;left:0;pointer-events:none;z-index:2;"></canvas>
+        </div>
+        <a class="text-sm tracking-widest uppercase transition-all px-8 py-4 font-bold" href="#services" style="border: 1px solid rgba(201,168,76,0.35); color:#D4AF37;">
+          Découvrir nos piliers
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="py-32 bg-surface-container-lowest" id="services">
+    <div class="max-w-7xl mx-auto px-8">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
+        <div class="max-w-2xl reveal">
+          <span class="text-primary font-label text-[0.68rem] uppercase tracking-[0.28em] mb-4 block">Expertise Stratégique</span>
+          <h2 class="font-serif text-4xl md:text-5xl font-semibold tracking-tight text-white" style="letter-spacing:-0.01em">Deux Piliers d'Excellence</h2>
+        </div>
+        <div class="h-px bg-primary/15 flex-grow mx-12 hidden md:block"></div>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-primary/8">
+
+        <!-- Service 1 -->
+        <div class="bg-surface p-12 lg:pr-24 border border-primary/5 reveal">
+          <div class="flex items-start gap-6 mb-8">
+            <span class="material-symbols-outlined text-4xl text-primary">settings_suggest</span>
+            <h3 class="font-serif text-3xl font-semibold text-white">Automatisation des processus</h3>
+          </div>
+          <div class="space-y-12">
+            <div class="relative pl-12">
+              <span class="absolute left-0 top-0 font-serif text-4xl text-primary/20 font-bold italic">01</span>
+              <h4 class="font-bold text-lg mb-2 text-white">Audit et cartographie</h4>
+              <p class="text-on-surface-variant leading-relaxed">Analyse exhaustive de vos flux existants pour identifier les goulots d'étranglement et les opportunités d'automatisation à fort ROI.</p>
+            </div>
+            <div class="relative pl-12">
+              <span class="absolute left-0 top-0 font-serif text-4xl text-primary/20 font-bold italic">02</span>
+              <h4 class="font-bold text-lg mb-2 text-white">Conception et déploiement</h4>
+              <p class="text-on-surface-variant leading-relaxed">Architecture technique robuste et mise en œuvre d'outils d'automatisation (RPA, No-code, API) adaptés à votre infrastructure.</p>
+            </div>
+            <div class="relative pl-12">
+              <span class="absolute left-0 top-0 font-serif text-4xl text-primary/20 font-bold italic">03</span>
+              <h4 class="font-bold text-lg mb-2 text-white">Formation et suivi</h4>
+              <p class="text-on-surface-variant leading-relaxed">Accompagnement au changement pour vos équipes et maintenance évolutive des systèmes déployés.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="bg-surface-container-low p-12 lg:pl-24 border border-primary/5 reveal">
+          <div class="flex items-start gap-6 mb-8">
+            <span class="material-symbols-outlined text-4xl text-primary">terminal</span>
+            <h3 class="font-serif text-3xl font-semibold text-white">Développement logiciel sur mesure</h3>
+          </div>
+          <p class="text-xl text-on-surface-variant mb-12 leading-relaxed font-serif italic" style="font-size:1.35rem">
+            Nous concevons des solutions logicielles qui s'adaptent à vos besoins, et non l'inverse.
+          </p>
+          <ul class="space-y-6">
+            <li class="flex items-center gap-4 text-primary font-semibold">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+              Tous secteurs d'activité
+            </li>
+            <li class="flex items-center gap-4 text-primary font-semibold">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+              Toutes tailles d'entreprises
+            </li>
+            <li class="flex items-center gap-4 text-primary font-semibold">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+              Architectures scalables et sécurisées
+            </li>
+          </ul>
+          <div class="mt-16 p-8 border-l-4 border-primary bg-surface-container-high">
+            <p class="text-[0.65rem] uppercase tracking-widest font-bold mb-2 text-primary">Engagement Centurio</p>
+            <p class="text-on-surface-variant">Code propriétaire, documentation complète et transfert de compétences inclus.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section class="py-32 bg-surface relative overflow-hidden" id="produits">
+    <div class="absolute inset-0 opacity-[0.04] pointer-events-none" style="background-image: radial-gradient(#D4AF37 1px, transparent 0); background-size: 20px 20px;"></div>
+    <div class="max-w-7xl mx-auto px-8 relative z-10">
+      <div class="text-center mb-20 reveal">
+        <span class="text-primary font-label text-[0.68rem] uppercase tracking-[0.28em] mb-4 block">Solutions Propriétaires</span>
+        <h2 class="font-serif text-4xl md:text-5xl font-semibold tracking-tight text-white" style="letter-spacing:-0.01em">L'Arsenal Logiciel Centurio</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <!-- Product 1 -->
+        <div class="product-card bg-surface-container-low border border-primary/10 p-10 group hover:border-primary/35 transition-all duration-500 reveal">
+          <div class="mb-8 flex justify-between items-start">
+            <h3 class="font-serif text-2xl font-semibold text-white">ImmoProspector</h3>
+            <span class="bg-primary text-on-primary text-[9px] font-bold px-2 py-1 tracking-widest">AI ENABLED</span>
+          </div>
+          <p class="text-on-surface-variant mb-8 leading-relaxed">Outil IA pour agences immobilières — identification de cibles d'acquisition via données cadastrales et analyse Street View.</p>
+          <div class="mt-auto pt-8 border-t border-primary/10 flex items-center justify-between">
+            <span class="text-[0.65rem] uppercase tracking-widest text-primary font-bold">Secteur Immobilier</span>
+            <span class="material-symbols-outlined text-primary/50 group-hover:text-primary transition-colors">arrow_outward</span>
+          </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product-card bg-surface-container-low border border-primary/10 p-10 group hover:border-primary/35 transition-all duration-500 reveal" style="transition-delay:0.1s">
+          <div class="mb-8 flex justify-between items-start">
+            <h3 class="font-serif text-2xl font-semibold text-white">Spirale</h3>
+            <span class="bg-surface-container-highest text-white text-[9px] font-bold px-2 py-1 tracking-widest">CORE SAAS</span>
+          </div>
+          <p class="text-on-surface-variant mb-8 leading-relaxed">Plateforme intelligente pour cabinets comptables — ingestion automatique de documents, calendrier fiscal, reporting client mensuel.</p>
+          <div class="mt-auto pt-8 border-t border-primary/10 flex items-center justify-between">
+            <span class="text-[0.65rem] uppercase tracking-widest text-primary font-bold">Fintech / Legal</span>
+            <span class="material-symbols-outlined text-primary/50 group-hover:text-primary transition-colors">arrow_outward</span>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card bg-surface-container-low border border-primary/10 p-10 group hover:border-primary/35 transition-all duration-500 reveal" style="transition-delay:0.2s">
+          <div class="mb-8 flex justify-between items-start">
+            <h3 class="font-serif text-2xl font-semibold text-white">Propulse</h3>
+            <span class="bg-surface-container-highest text-white text-[9px] font-bold px-2 py-1 tracking-widest">BI SUITE</span>
+          </div>
+          <p class="text-on-surface-variant mb-8 leading-relaxed">Accélérateur de productivité pour TPE/PME — automatisation des flux opérationnels et de croissance stratégique.</p>
+          <div class="mt-auto pt-8 border-t border-primary/10 flex items-center justify-between">
+            <span class="text-[0.65rem] uppercase tracking-widest text-primary font-bold">TPE / PME</span>
+            <span class="material-symbols-outlined text-primary/50 group-hover:text-primary transition-colors">arrow_outward</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Results Section -->
+  <section class="py-32 bg-surface-container-lowest" id="resultats">
+    <div class="max-w-7xl mx-auto px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+        <div class="lg:col-span-5 reveal">
+          <span class="text-primary font-label text-[0.68rem] uppercase tracking-[0.28em] mb-4 block">Impact Mesurable</span>
+          <h2 class="font-serif text-4xl font-semibold tracking-tight mb-8 text-white" style="letter-spacing:-0.01em">La Rigueur de la Performance</h2>
+          <p class="text-on-surface-variant text-lg leading-relaxed">Nous n'implémentons pas de technologie pour la technologie. Chaque ligne de code doit générer un retour sur investissement immédiat et mesurable.</p>
+        </div>
+        <div class="lg:col-span-7 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-surface-container-low p-8 border-t-2 border-primary reveal">
+            <div class="stat-num text-5xl mb-3">+15h</div>
+            <p class="text-sm font-medium leading-snug text-on-surface">Récupérées par semaine et par collaborateur</p>
+          </div>
+          <div class="bg-surface-container-low p-8 border-t-2 border-primary reveal" style="transition-delay:0.1s">
+            <div class="stat-num text-5xl mb-3">+30%</div>
+            <p class="text-sm font-medium leading-snug text-on-surface">Amélioration du taux de conversion</p>
+          </div>
+          <div class="bg-surface-container-low p-8 border-t-2 border-primary reveal" style="transition-delay:0.2s">
+            <div class="stat-num text-5xl mb-3">&lt;3m</div>
+            <p class="text-sm font-medium leading-snug text-on-surface">Amortissement de l'investissement initial</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lead Capture -->
+  <section class="py-32 bg-surface border-y border-primary/5" id="audit">
+    <div class="max-w-5xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-20">
+      <div class="reveal">
+        <h2 class="font-serif text-4xl font-semibold mb-6 text-white" style="letter-spacing:-0.01em">Audit gratuit des processus administratifs</h2>
+        <p class="text-on-surface-variant mb-12 leading-relaxed">Analysez vos points de friction actuels avec nos consultants experts. Nous vous remettrons un rapport de diagnostic complet et une proposition d'intervention chiffrée.</p>
+        <div class="space-y-6">
+          <div class="flex items-start gap-4">
+            <span class="material-symbols-outlined text-primary mt-1">schedule</span>
+            <div>
+              <p class="font-bold text-white">Réponse garantie sous 48h</p>
+              <p class="text-sm text-on-surface-variant">Prise de contact par un consultant senior.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <span class="material-symbols-outlined text-primary mt-1">security</span>
+            <div>
+              <p class="font-bold text-white">Confidentialité totale</p>
+              <p class="text-sm text-on-surface-variant">Accord de non-divulgation systématique (NDA).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-1 bg-primary/5 reveal">
+        <form class="space-y-6 p-10 bg-surface-container-low border border-primary/10" onsubmit="handleSubmit(event)">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="font-label text-[0.62rem] uppercase tracking-widest font-bold mb-2 block text-primary">Prénom</label>
+              <input class="w-full bg-transparent border-0 border-b border-primary/20 focus:ring-0 focus:border-primary text-white transition-all py-3" placeholder="Jean" type="text"/>
+            </div>
+            <div>
+              <label class="font-label text-[0.62rem] uppercase tracking-widest font-bold mb-2 block text-primary">Société</label>
+              <input class="w-full bg-transparent border-0 border-b border-primary/20 focus:ring-0 focus:border-primary text-white transition-all py-3" placeholder="Nom de l'entreprise" type="text"/>
+            </div>
+          </div>
+          <div>
+            <label class="font-label text-[0.62rem] uppercase tracking-widest font-bold mb-2 block text-primary">Email Professionnel</label>
+            <input class="w-full bg-transparent border-0 border-b border-primary/20 focus:ring-0 focus:border-primary text-white transition-all py-3" placeholder="jean@entreprise.com" type="email"/>
+          </div>
+          <div>
+            <label class="font-label text-[0.62rem] uppercase tracking-widest font-bold mb-2 block text-primary">Message / Objectif</label>
+            <textarea class="w-full bg-transparent border-0 border-b border-primary/20 focus:ring-0 focus:border-primary text-white transition-all py-3 resize-none" placeholder="Décrivez brièvement votre principal défi opérationnel." rows="3"></textarea>
+          </div>
+          <button class="w-full text-on-primary py-5 font-bold tracking-tight text-lg transition-all hover:brightness-125 active:scale-[0.98]" type="submit" style="background: linear-gradient(135deg,#a8873a 0%,#c9a84c 40%,#a8873a 60%,#7a5a1e 100%);">
+            Demander mon audit gratuit — réponse sous 48h
+          </button>
+          <p class="text-[9px] text-center text-secondary uppercase tracking-widest">Zéro engagement. Expertise immédiate.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-surface-container-lowest w-full py-12 border-t border-primary/5">
+  <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-8">
+    <div class="flex flex-col gap-2">
+      <div class="font-serif text-lg font-semibold text-white tracking-wide">Centurio Stratégie</div>
+      <p class="text-secondary text-sm">© 2025 Centurio Stratégie. Tous droits réservés.</p>
+    </div>
+    <div class="flex flex-wrap justify-center gap-8">
+      <a class="text-secondary text-sm font-medium hover:text-primary transition-all duration-200" href="#">Mentions Légales</a>
+      <a class="text-secondary text-sm font-medium hover:text-primary transition-all duration-200" href="#">Politique de Confidentialité</a>
+      <a class="text-secondary text-sm font-medium hover:text-primary transition-all duration-200" href="#audit">Contact</a>
+      <a class="text-secondary text-sm font-medium hover:text-primary transition-all duration-200" href="#">LinkedIn</a>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto px-8 mt-12">
+    <div class="h-px bg-primary/10 w-full"></div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

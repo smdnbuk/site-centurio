@@ -277,11 +277,53 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 
 // ─── Form Handler ─────────────────────────────────────────────────────────────
-function handleSubmit(e) {
+async function handleSubmit(e) {
   e.preventDefault();
-  const btn = e.target.querySelector('button[type=submit]');
-  btn.textContent = 'Message envoyé ✓';
-  btn.style.background = '#2a2a2a';
-  btn.style.color = '#D4AF37';
+  const form = e.target;
+  const btn  = form.querySelector('button[type=submit]');
+  const originalText = btn.textContent;
+
+  btn.textContent = 'Envoi en cours…';
   btn.disabled = true;
+
+  const data = {
+    prenom:  form.querySelector('input[placeholder="Jean"]').value,
+    societe: form.querySelector('input[placeholder="Nom de l\'entreprise"]').value,
+    email:   form.querySelector('input[type="email"]').value,
+    message: form.querySelector('textarea').value,
+  };
+
+  try {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+
+    if (res.ok) {
+      btn.textContent = 'Message envoyé ✓';
+      btn.style.background = '#2a2a2a';
+      btn.style.color = '#D4AF37';
+    } else {
+      btn.textContent = 'Erreur — réessayez';
+      btn.style.background = '#3a1a1a';
+      btn.style.color = '#ff6b6b';
+      btn.disabled = false;
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.background = '';
+        btn.style.color = '';
+      }, 3000);
+    }
+  } catch {
+    btn.textContent = 'Erreur réseau';
+    btn.style.background = '#3a1a1a';
+    btn.style.color = '#ff6b6b';
+    btn.disabled = false;
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 3000);
+  }
 }

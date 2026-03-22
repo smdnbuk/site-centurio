@@ -289,7 +289,7 @@ async function handleSubmit(e) {
   const formData = new FormData(form);
 
   try {
-    const res = await fetch('https://formsubmit.co/ajax/guyonloic89@gmail.com', {
+    const res = await fetch('https://formspree.io/f/mgonjyal', {
       method: 'POST',
       headers: { 'Accept': 'application/json' },
       body: formData,
@@ -297,7 +297,7 @@ async function handleSubmit(e) {
 
     const json = await res.json();
 
-    if (json.success === 'true' || json.success === true) {
+    if (res.ok) {
       btn.textContent = 'Message envoyé ✓';
       btn.style.background = '#2a2a2a';
       btn.style.color = '#D4AF37';

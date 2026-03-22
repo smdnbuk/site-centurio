@@ -286,37 +286,27 @@ async function handleSubmit(e) {
   btn.textContent = 'Envoi en cours…';
   btn.disabled = true;
 
-  const data = {
-    prenom:  form.querySelector('input[placeholder="Jean"]').value,
-    societe: form.querySelector('input[placeholder="Nom de l\'entreprise"]').value,
-    email:   form.querySelector('input[type="email"]').value,
-    message: form.querySelector('textarea').value,
-  };
+  const formData = new FormData(form);
 
   try {
-    const res = await fetch('/api/contact', {
+    const res = await fetch('https://formsubmit.co/ajax/guyonloic89@gmail.com', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      headers: { 'Accept': 'application/json' },
+      body: formData,
     });
 
-    if (res.ok) {
+    const json = await res.json();
+
+    if (json.success === 'true' || json.success === true) {
       btn.textContent = 'Message envoyé ✓';
       btn.style.background = '#2a2a2a';
       btn.style.color = '#D4AF37';
+      form.reset();
     } else {
-      btn.textContent = 'Erreur — réessayez';
-      btn.style.background = '#3a1a1a';
-      btn.style.color = '#ff6b6b';
-      btn.disabled = false;
-      setTimeout(() => {
-        btn.textContent = originalText;
-        btn.style.background = '';
-        btn.style.color = '';
-      }, 3000);
+      throw new Error('Formsubmit error');
     }
   } catch {
-    btn.textContent = 'Erreur réseau';
+    btn.textContent = 'Erreur — réessayez';
     btn.style.background = '#3a1a1a';
     btn.style.color = '#ff6b6b';
     btn.disabled = false;

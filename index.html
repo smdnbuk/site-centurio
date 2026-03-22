@@ -274,23 +274,28 @@
       </div>
       <div class="p-1 bg-primary/5 reveal">
         <form class="space-y-6 p-10 bg-surface-container-low border border-primary/10" onsubmit="handleSubmit(event)">
+          <!-- Formsubmit config -->
+          <input type="hidden" name="_subject" value="Nouvelle demande d'audit — Centurio Stratégie"/>
+          <input type="hidden" name="_captcha" value="false"/>
+          <input type="hidden" name="_template" value="table"/>
+
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
               <label class="font-label text-[0.62rem] uppercase tracking-widest font-bold mb-2 block text-primary">Prénom</label>
-              <input class="w-full bg-transparent border-0 border-b border-primary/20 focus:ring-0 focus:border-primary text-white transition-all py-3" placeholder="Jean" type="text"/>
+              <input name="prenom" class="w-full bg-transparent border-0 border-b border-primary/20 focus:ring-0 focus:border-primary text-white transition-all py-3" placeholder="Jean" type="text"/>
             </div>
             <div>
               <label class="font-label text-[0.62rem] uppercase tracking-widest font-bold mb-2 block text-primary">Société</label>
-              <input class="w-full bg-transparent border-0 border-b border-primary/20 focus:ring-0 focus:border-primary text-white transition-all py-3" placeholder="Nom de l'entreprise" type="text"/>
+              <input name="societe" class="w-full bg-transparent border-0 border-b border-primary/20 focus:ring-0 focus:border-primary text-white transition-all py-3" placeholder="Nom de l'entreprise" type="text"/>
             </div>
           </div>
           <div>
             <label class="font-label text-[0.62rem] uppercase tracking-widest font-bold mb-2 block text-primary">Email Professionnel</label>
-            <input class="w-full bg-transparent border-0 border-b border-primary/20 focus:ring-0 focus:border-primary text-white transition-all py-3" placeholder="jean@entreprise.com" type="email"/>
+            <input name="email" class="w-full bg-transparent border-0 border-b border-primary/20 focus:ring-0 focus:border-primary text-white transition-all py-3" placeholder="jean@entreprise.com" type="email"/>
           </div>
           <div>
             <label class="font-label text-[0.62rem] uppercase tracking-widest font-bold mb-2 block text-primary">Message / Objectif</label>
-            <textarea class="w-full bg-transparent border-0 border-b border-primary/20 focus:ring-0 focus:border-primary text-white transition-all py-3 resize-none" placeholder="Décrivez brièvement votre principal défi opérationnel." rows="3"></textarea>
+            <textarea name="message" class="w-full bg-transparent border-0 border-b border-primary/20 focus:ring-0 focus:border-primary text-white transition-all py-3 resize-none" placeholder="Décrivez brièvement votre principal défi opérationnel." rows="3"></textarea>
           </div>
           <button class="w-full text-on-primary py-5 font-bold tracking-tight text-lg transition-all hover:brightness-125 active:scale-[0.98]" type="submit" style="background: linear-gradient(135deg,#a8873a 0%,#c9a84c 40%,#a8873a 60%,#7a5a1e 100%);">
             Demander mon audit gratuit — réponse sous 48h

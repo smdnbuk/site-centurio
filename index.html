@@ -732,11 +732,32 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 // ─── Form Handler ─────────────────────────────────────────────────────────────
 function handleSubmit(e) {
   e.preventDefault();
-  const btn = e.target.querySelector('button[type=submit]');
-  btn.textContent = 'Message envoyé ✓';
-  btn.style.background = '#2a2a2a';
-  btn.style.color = '#D4AF37';
+  const form = e.target;
+  const btn = form.querySelector('button[type=submit]');
+  btn.textContent = 'Envoi en cours…';
   btn.disabled = true;
+  fetch(form.action, {
+    method: 'POST',
+    body: new FormData(form),
+    headers: { 'Accept': 'application/json' }
+  }).then(function(r) {
+    if (r.ok) {
+      btn.textContent = 'Message envoyé ✓';
+      btn.style.background = '#2a2a2a';
+      btn.style.color = '#D4AF37';
+      form.reset();
+    } else {
+      btn.textContent = 'Erreur — réessayez';
+      btn.style.background = '#7a2020';
+      btn.style.color = '#fff';
+      btn.disabled = false;
+    }
+  }).catch(function() {
+    btn.textContent = 'Erreur — réessayez';
+    btn.style.background = '#7a2020';
+    btn.style.color = '#fff';
+    btn.disabled = false;
+  });
 }
 </script>
 </body>

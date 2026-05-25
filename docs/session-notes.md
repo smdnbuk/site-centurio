@@ -108,3 +108,90 @@ site-centurio/
 | `b624a63` | Formulaire contact : migration vers Formsubmit (zéro config) |
 | `00bf74c` | SEO : title et meta description géolocalisés Chartres |
 | `005c6b7` | Formulaire contact : migration vers Formspree (mgonjyal) |
+| `49565a7` | docs : ajout notes de session du 23 mars 2026 |
+
+---
+
+# Notes de session — 25 mai 2026
+
+## Ce qui a été accompli
+
+### 1. Refonte complète de l'index.html
+
+Remplacement du contenu de `index.html` par la nouvelle version `indexcenturio.html`. Structure entièrement revue, orientée audit et automatisation des process TPE/PME.
+
+**Nouvelles sections :**
+- **Hero** — accroche directe ("Vous dépensez du temps sans le savoir. On vous le rend.")
+- **Douleur** — liste des problèmes concrets (ressaisie, Excel, relances oubliées…)
+- **Méthode** — 4 étapes (Audit → Diagnostic → Implémentation → Formation)
+- **Livrables** — détail de ce que le client reçoit avec l'audit gratuit
+- **Exemple de livrable** — faux document d'audit anonymisé (KPIs, sommaire, 17 pages)
+- **Pourquoi Centurio** — positionnement (expérience terrain, aucun outil imposé, ROI)
+- **Produits** — 4 solutions sectorielles (Not'Air, Propulse, Cursus, Tell Me Hall)
+- **Formulaire CTA** — reformulé avec 3 garanties (48h, NDA, zéro engagement)
+
+Le logo et son chemin (`logo.png`) ont été conservés à l'identique.
+
+Les styles et le JavaScript sont désormais inline (remplacement de `style.css` et `main.js` externes).
+
+### 2. Fix formulaire contact
+
+Le `handleSubmit` faisait `e.preventDefault()` sans envoyer les données — le formulaire n'arrivait jamais chez Formspree. Corrigé avec un `fetch()` réel vers `https://formspree.io/f/mgonjyal`, avec feedback visuel succès/erreur.
+
+### 3. SEO — indexation Google
+
+- **robots.txt** créé : `Allow: /` + référence au sitemap
+- **sitemap.xml** créé : liste `https://centuriostrategie.com/`
+- **Balise canonical** ajoutée dans le `<head>` : `<link rel="canonical" href="https://centuriostrategie.com/"/>`
+- **Vérifié** : aucune balise `<meta name="robots" content="noindex">` présente
+- **Title et meta description** mis à jour pour le nouveau positionnement
+
+---
+
+## État actuel du dépôt
+
+```
+site-centurio/
+├── index.html           ← site refait (inline CSS + JS)
+├── style.css            ← ancien fichier CSS (plus référencé)
+├── main.js              ← ancien fichier JS (plus référencé)
+├── logo.png
+├── robots.txt           ← NEW
+├── sitemap.xml          ← NEW
+├── indexcenturio.html   ← source de la refonte (non suivi par git)
+├── vercel.json
+├── package.json
+├── api/
+│   └── contact.js       ← ancienne route Resend (non utilisée)
+├── docs/
+│   └── session-notes.md
+└── .gitignore
+```
+
+---
+
+## Commits de la session
+
+| Hash | Message |
+|---|---|
+| `490b331` | Refonte complète index.html : nouvelle structure orientée audit et automatisation |
+| `432485f` | Fix formulaire contact : envoi réel vers Formspree via fetch |
+| `f54da81` | SEO : robots.txt, sitemap.xml et balise canonical pour indexation Google |
+
+---
+
+## Ce qui reste à faire
+
+### Prioritaire
+
+- [ ] **Soumettre le sitemap** dans Google Search Console (`https://centuriostrategie.com/sitemap.xml`)
+- [ ] **Configurer Google Search Console** si pas encore fait
+
+### Améliorations souhaitables
+
+- [ ] **Supprimer `style.css`, `main.js` et `api/contact.js`** : plus utilisés depuis la refonte inline
+- [ ] **SEO complémentaire** : balises Open Graph, données structurées JSON-LD (LocalBusiness)
+- [ ] **Favicon** : aucun favicon configuré
+- [ ] **Mentions légales / Politique de confidentialité** : liens en footer pointent vers `#`
+- [ ] **Lien LinkedIn** : lien en footer pointe vers `#`
+- [ ] **Google Analytics** : aucun tracking en place

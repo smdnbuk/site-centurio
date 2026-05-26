@@ -189,9 +189,107 @@ site-centurio/
 
 ### Améliorations souhaitables
 
-- [ ] **Supprimer `style.css`, `main.js` et `api/contact.js`** : plus utilisés depuis la refonte inline
-- [ ] **SEO complémentaire** : balises Open Graph, données structurées JSON-LD (LocalBusiness)
+- [ ] **Supprimer `style.css` et `api/contact.js`** : plus utilisés depuis la refonte inline
 - [ ] **Favicon** : aucun favicon configuré
-- [ ] **Mentions légales / Politique de confidentialité** : liens en footer pointent vers `#`
-- [ ] **Lien LinkedIn** : lien en footer pointe vers `#`
 - [ ] **Google Analytics** : aucun tracking en place
+
+---
+
+# Notes de session — 26 mai 2026
+
+## Ce qui a été accompli
+
+### 1. Audit SEO complet (`/seo audit`)
+
+Audit lancé avec 5 agents parallèles sur https://centuriostrategie.com :
+- Technical SEO : **54/100**
+- Content Quality (E-E-A-T) : **35/100**
+- Schema / Structured Data : **10/100**
+- AI Search Readiness (GEO) : **31/100**
+- Search Experience (SXO) : **41/100**
+
+**Score global SEO Health : 38/100**
+
+Problèmes critiques identifiés : aucun schema, pages légales manquantes, Tailwind CDN render-blocking, animation particules non optimisée, aucune personne nommée sur le site, lien LinkedIn mort.
+
+### 2. Sprint 1 — Signaux SEO fondamentaux (FAIT)
+
+- **6 blocs JSON-LD** ajoutés : ProfessionalService, WebSite, WebPage, Service (Audit Gratuit), Service (Implémentation), ItemList (4 produits)
+- **Meta Open Graph + Twitter Card** : og:title, og:description, og:image, og:locale, og:site_name, twitter:card, twitter:title, twitter:description, twitter:image
+- **Preconnect Google Fonts** : `fonts.googleapis.com` + `fonts.gstatic.com`
+- **Lien LinkedIn fixé** : `href="#"` remplacé par `https://www.linkedin.com/company/centurio-strategie` avec target="_blank" rel="noopener noreferrer"
+- **`llms.txt` créé** : fichier structuré pour crawlers IA (ChatGPT, Claude, Perplexity)
+
+### 3. Sprint 2 — Performance (FAIT)
+
+- **Tailwind CDN supprimé** : remplacé par build Tailwind v3 purgé+minifié (`static/styles.css`, 21KB vs ~358KB)
+- `tailwind.config.js` créé, `src/input.css` créé, script `npm run build:css` ajouté
+- Bloc `<script id="tailwind-config">` inline supprimé
+- **Animation particules optimisée** :
+  - `prefers-reduced-motion` respecté (animation désactivée si activé)
+  - Throttle à 30fps (au lieu de 60fps)
+  - Pause via IntersectionObserver quand hero hors viewport
+  - Particules réduites : 100 desktop / 60 mobile (vs 140 avant)
+  - maxDist réduit : 200px (vs 220px)
+- `node_modules/` ajouté au `.gitignore`
+
+### 4. Sprint 3 — En attente d'informations
+
+En attente des infos utilisateur pour :
+- **Mentions Légales** : forme juridique, SIRET, adresse siège, directeur publication, hébergeur
+- **Politique de Confidentialité** : même infos
+- **Bio fondateur** : nom, parcours, expérience
+
+---
+
+## État actuel du dépôt
+
+```
+site-centurio/
+├── index.html              ← site (inline JS, schema JSON-LD, OG tags)
+├── static/
+│   └── styles.css          ← Tailwind purgé+minifié (21KB)
+├── src/
+│   └── input.css           ← source Tailwind
+├── tailwind.config.js      ← config Tailwind v3
+├── llms.txt                ← NEW — pour crawlers IA
+├── logo.png
+├── robots.txt
+├── sitemap.xml
+├── vercel.json
+├── package.json            ← avec script build:css
+├── style.css               ← ancien (non référencé)
+├── main.js                 ← ancien (non référencé, doublon du inline)
+├── indexcenturio.html      ← source de la refonte (non suivi)
+├── api/
+│   └── contact.js          ← ancienne route Resend (non utilisée)
+├── docs/
+│   └── session-notes.md
+├── node_modules/           ← ignoré par git
+└── .gitignore
+```
+
+---
+
+## Ce qui reste à faire
+
+### Sprint 3 — En attente (infos légales + bio)
+
+- [ ] **Mentions Légales** : créer la page (besoin SIRET, adresse, forme juridique)
+- [ ] **Politique de Confidentialité** : créer la page
+- [ ] **Bio fondateur** : ajouter section avec nom, parcours, photo
+- [ ] **Mettre à jour les liens footer** Mentions Légales / Politique de Confidentialité une fois pages créées
+- [ ] **Ajouter les nouvelles pages au sitemap.xml**
+
+### Améliorations post-Sprint 3
+
+- [ ] **og-image.jpg** : créer l'image 1200x630px référencée dans les meta OG
+- [ ] **Favicon** : aucun favicon configuré
+- [ ] **Supprimer fichiers obsolètes** : `style.css`, `main.js`, `api/contact.js`
+- [ ] **FAQ section** : 6-8 questions ciblant les PAA Google
+- [ ] **Pages produits dédiées** : Not'Air, Propulse, Cursus (800+ mots chacune)
+- [ ] **Google Search Console** : soumettre sitemap, configurer
+- [ ] **Google Analytics** : aucun tracking en place
+- [ ] **IndexNow** : implémenter pour Bing/Yandex
+- [ ] **CSP + Permissions-Policy** : ajouter dans vercel.json
+- [ ] **Contenu pilier** : 2-3 articles long-format (awareness-stage)

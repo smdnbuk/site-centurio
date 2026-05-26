@@ -1,6 +1,9 @@
 # Ancien fichier source
 centurio-v2.html
 
+# Dependencies
+node_modules/
+
 # Claude
 .claude/
 

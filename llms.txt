@@ -1,0 +1,33 @@
+# Centurio Strategie
+
+> Cabinet de conseil en automatisation des processus operationnels pour TPE et PME en France. Audit gratuit, livrable complet en 3 semaines, ROI mesurable des le premier mois.
+
+## A propos
+
+Centurio Strategie audite et automatise les flux operationnels des petites et moyennes entreprises francaises. La methodologie repose sur 4 etapes : audit terrain, diagnostic chiffre (cartographie SIPOC, diagrammes BPMN, analyse VSM), implementation (RPA, no-code ou developpement sur mesure), et formation a l'autonomie. Aucun outil n'est impose : chaque automatisation doit se justifier par un gain mesurable.
+
+## Services
+
+- Audit operationnel gratuit : cartographie complete des processus, identification des taches automatisables et de leur priorite, estimation du temps recuperable par semaine, plan d'action chiffre sur 18 mois. Livrable de 17 pages, livre sous 3 semaines.
+- Implementation : RPA, no-code ou developpement sur mesure selon la situation. Aucun outil impose.
+- Formation : independance operationnelle des equipes clients apres intervention.
+
+## Produits sectoriels
+
+- Not'Air : portail client et verification documentaire par IA pour etudes notariales.
+- Propulse : gestion operationnelle SaaS pour garages independants (MRA).
+- Cursus : verification de bulletins de paie par IA pour travailleurs interimaires.
+- Tell Me Hall : decouverte artistique quotidienne avec analyse psychologique par IA.
+
+## Resultats types
+
+- 24 heures recuperees par mois sur les taches manuelles
+- -62% de taches manuelles apres implementation
+- 14 000 euros de cout de friction annuel identifies et recuperables
+- Cycle commercial reduit de 6 a 3 semaines
+
+## Contact
+
+- Site : https://centuriostrategie.com/
+- Formulaire audit gratuit : https://centuriostrategie.com/#audit
+- LinkedIn : https://www.linkedin.com/company/centurio-strategie

@@ -233,12 +233,45 @@ Problèmes critiques identifiés : aucun schema, pages légales manquantes, Tail
   - maxDist réduit : 200px (vs 220px)
 - `node_modules/` ajouté au `.gitignore`
 
-### 4. Sprint 3 — En attente d'informations
+### 4. Sprint 3 — Pages légales + bio (FAIT)
 
-En attente des infos utilisateur pour :
-- **Mentions Légales** : forme juridique, SIRET, adresse siège, directeur publication, hébergeur
-- **Politique de Confidentialité** : même infos
-- **Bio fondateur** : nom, parcours, expérience
+- **Mentions Légales** (`mentions-legales.html`) : 6 sections, placeholders `[À COMPLÉTER]` pour SIRET/adresse/forme juridique (pas encore immatriculé)
+- **Politique de Confidentialité** (`politique-de-confidentialite.html`) : 9 sections RGPD (données collectées, Formspree, droits, CNIL, cookies=aucun)
+- **Liens footer mis à jour** : `href="#"` → `/mentions-legales` et `/politique-de-confidentialite`
+- **Sitemap étendu** : 1 → 3 URLs
+- **Section "Qui sommes-nous"** ajoutée : 10+ ans d'expérience, environnements industriels et tertiaires, conviction fondatrice
+
+### 5. Sécurité et nettoyage (FAIT)
+
+- **CSP + Permissions-Policy** ajoutés dans `vercel.json`
+- **Fichiers obsolètes supprimés** : `style.css`, `api/contact.js`
+- **Logo** : ajout `width/height` pour prévenir CLS
+- **Canonical** : trailing slash cohérent avec `trailingSlash: false`
+
+### 6. FAQ (FAIT)
+
+- **8 questions FAQ** en accordéons `<details>` : déroulement audit, gratuité, taille entreprise, outils, délais, secteurs, confidentialité, distance/site
+- **Schema FAQPage JSON-LD** ajouté (7e bloc) — pas de rich result Google (site commercial), mais utile pour citation IA
+
+### 7. Favicon + OG Image (FAIT)
+
+- **favicon.ico** (16/32/48px) généré depuis le logo centurion
+- **favicon-192.png** pour mobile
+- **apple-touch-icon.png** (180px)
+- **og-image.jpg** (1200x630) : logo + "Automatisation des processus pour TPE/PME" + baseline
+- Balises favicon ajoutées dans les 3 pages HTML
+
+### 8. Fix Vercel deploy (FAIT)
+
+- Ajout `"outputDirectory": "."` dans `vercel.json` (Vercel cherchait un dossier `public/` après détection du script build)
+
+### 9. Schema validation + corrections (FAIT)
+
+- Audit `/seo schema` : score initial **61/100**
+- **Type errors corrigés** : `copyrightYear` string → integer, `price` string → integer
+- **datePublished** ajouté sur WebPage (`2024-01-01`)
+- **Propulse** : ajout URL `https://www.propulseapp.fr/` + `operatingSystem: Web`
+- **Not'Air, Cursus, Tell Me Hall** : `SoftwareApplication` → `Product` (pas de page dédiée = pas de rich result possible en SoftwareApplication)
 
 ---
 
@@ -246,50 +279,73 @@ En attente des infos utilisateur pour :
 
 ```
 site-centurio/
-├── index.html              ← site (inline JS, schema JSON-LD, OG tags)
+├── index.html                        ← site principal (7 blocs JSON-LD, OG, FAQ, inline JS)
+├── mentions-legales.html             ← placeholders [À COMPLÉTER]
+├── politique-de-confidentialite.html
 ├── static/
-│   └── styles.css          ← Tailwind purgé+minifié (21KB)
+│   └── styles.css                    ← Tailwind v3 purgé+minifié (21KB)
 ├── src/
-│   └── input.css           ← source Tailwind
-├── tailwind.config.js      ← config Tailwind v3
-├── llms.txt                ← NEW — pour crawlers IA
+│   └── input.css                     ← source Tailwind
+├── tailwind.config.js
+├── llms.txt                          ← pour crawlers IA
+├── og-image.jpg                      ← 1200x630 pour LinkedIn/Twitter
+├── favicon.ico                       ← 16/32/48px
+├── favicon-192.png                   ← mobile
+├── apple-touch-icon.png              ← iOS
 ├── logo.png
 ├── robots.txt
-├── sitemap.xml
-├── vercel.json
-├── package.json            ← avec script build:css
-├── style.css               ← ancien (non référencé)
-├── main.js                 ← ancien (non référencé, doublon du inline)
-├── indexcenturio.html      ← source de la refonte (non suivi)
-├── api/
-│   └── contact.js          ← ancienne route Resend (non utilisée)
+├── sitemap.xml                       ← 3 URLs
+├── vercel.json                       ← outputDirectory, CSP, Permissions-Policy
+├── package.json                      ← avec script build:css
+├── main.js                           ← ancien (non référencé, peut être supprimé)
 ├── docs/
 │   └── session-notes.md
-├── node_modules/           ← ignoré par git
+├── node_modules/                     ← ignoré par git
 └── .gitignore
 ```
 
 ---
 
+## Commits de la session (26 mai 2026)
+
+| Hash | Message |
+|---|---|
+| `5f73523` | SEO : audit complet + schema JSON-LD, OG tags, perf, pages légales |
+| `b8410b6` | SEO : headers sécurité, nettoyage fichiers obsolètes, fix CLS logo |
+| `6583cf0` | Ajout section Qui sommes-nous |
+| `848231b` | Ajout FAQ 8 questions + schema FAQPage JSON-LD |
+| `8e2d087` | Fix Vercel deploy : outputDirectory racine |
+| `fcd2cbc` | Ajout favicon (ico + png + apple-touch) et og-image.jpg |
+| `0f5c5f9` | Fix schema : type errors, datePublished, Propulse URL, Product types |
+
+---
+
+## Score SEO estimé après session
+
+| Catégorie | Avant | Après |
+|-----------|-------|-------|
+| Technical SEO | 54 | ~72 |
+| Content Quality (E-E-A-T) | 35 | ~55 |
+| On-Page SEO | 55 | ~70 |
+| Schema / Structured Data | 10 | ~75 |
+| Performance (CWV) | 35 | ~60 |
+| AI Search Readiness (GEO) | 31 | ~50 |
+| Images | 20 | ~40 |
+| **Global** | **38** | **~62** |
+
+---
+
 ## Ce qui reste à faire
 
-### Sprint 3 — En attente (infos légales + bio)
+### Quand SIRET obtenu
 
-- [ ] **Mentions Légales** : créer la page (besoin SIRET, adresse, forme juridique)
-- [ ] **Politique de Confidentialité** : créer la page
-- [ ] **Bio fondateur** : ajouter section avec nom, parcours, photo
-- [ ] **Mettre à jour les liens footer** Mentions Légales / Politique de Confidentialité une fois pages créées
-- [ ] **Ajouter les nouvelles pages au sitemap.xml**
+- [ ] Compléter `[À COMPLÉTER]` dans `mentions-legales.html` et `politique-de-confidentialite.html`
+- [ ] Ajouter `address` et `telephone` dans le schema ProfessionalService (débloque le rich result LocalBusiness)
 
-### Améliorations post-Sprint 3
+### Améliorations souhaitables
 
-- [ ] **og-image.jpg** : créer l'image 1200x630px référencée dans les meta OG
-- [ ] **Favicon** : aucun favicon configuré
-- [ ] **Supprimer fichiers obsolètes** : `style.css`, `main.js`, `api/contact.js`
-- [ ] **FAQ section** : 6-8 questions ciblant les PAA Google
-- [ ] **Pages produits dédiées** : Not'Air, Propulse, Cursus (800+ mots chacune)
-- [ ] **Google Search Console** : soumettre sitemap, configurer
+- [ ] **Supprimer `main.js`** : doublon du code inline, non référencé
+- [ ] **Articles pilier** : 2-3 articles long-format ciblant "automatisation process PME" (awareness-stage, principal levier trafic organique restant)
 - [ ] **Google Analytics** : aucun tracking en place
 - [ ] **IndexNow** : implémenter pour Bing/Yandex
-- [ ] **CSP + Permissions-Policy** : ajouter dans vercel.json
-- [ ] **Contenu pilier** : 2-3 articles long-format (awareness-stage)
+- [ ] **Valider schema** sur https://search.google.com/test/rich-results

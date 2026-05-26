@@ -306,6 +306,22 @@ site-centurio/
 
 ---
 
+### 10. Local SEO (FAIT)
+
+Audit local lancé (`/seo local`) — score local : **38/100**. Problème principal : zéro signal géographique sur le site.
+
+Corrections implémentées :
+- **Schema ProfessionalService enrichi** :
+  - `address` : Courville-sur-Eure, 28190, Centre-Val de Loire
+  - `telephone` : +33699042443
+  - `geo` : lat 48.4513, lng 1.3982
+  - `areaServed` : GeoCircle rayon 35km + Paris + France
+- **Téléphone visible** : ajouté dans la section contact ("Ou appelez-nous directement") et dans le footer
+- **Zone d'intervention** : phrase dans le footer ("Interventions sur site : Chartres, Eure-et-Loir et Paris. À distance : toute la France.")
+- **Footer enrichi** : "Courville-sur-Eure (28) · 06 99 04 24 43"
+
+---
+
 ## Commits de la session (26 mai 2026)
 
 | Hash | Message |
@@ -317,6 +333,8 @@ site-centurio/
 | `8e2d087` | Fix Vercel deploy : outputDirectory racine |
 | `fcd2cbc` | Ajout favicon (ico + png + apple-touch) et og-image.jpg |
 | `0f5c5f9` | Fix schema : type errors, datePublished, Propulse URL, Product types |
+| `2ac1faa` | docs : mise à jour notes de session |
+| `5949a36` | Local SEO : adresse, téléphone, zone d'intervention, schema geo |
 
 ---
 
@@ -325,13 +343,13 @@ site-centurio/
 | Catégorie | Avant | Après |
 |-----------|-------|-------|
 | Technical SEO | 54 | ~72 |
-| Content Quality (E-E-A-T) | 35 | ~55 |
-| On-Page SEO | 55 | ~70 |
-| Schema / Structured Data | 10 | ~75 |
+| Content Quality (E-E-A-T) | 35 | ~58 |
+| On-Page SEO | 55 | ~72 |
+| Schema / Structured Data | 10 | ~80 |
 | Performance (CWV) | 35 | ~60 |
 | AI Search Readiness (GEO) | 31 | ~50 |
 | Images | 20 | ~40 |
-| **Global** | **38** | **~62** |
+| **Global** | **38** | **~65** |
 
 ---
 
@@ -340,12 +358,23 @@ site-centurio/
 ### Quand SIRET obtenu
 
 - [ ] Compléter `[À COMPLÉTER]` dans `mentions-legales.html` et `politique-de-confidentialite.html`
-- [ ] Ajouter `address` et `telephone` dans le schema ProfessionalService (débloque le rich result LocalBusiness)
+- [ ] Inscrire sur Societe.com, Verif.com (auto via INSEE)
+
+### Côté GBP (à faire par l'utilisateur)
+
+- [x] Profil GBP créé (Knowledge Graph ID : /g/11z3wqhs5_)
+- [ ] Vérifier catégorie primaire : "Conseil en gestion d'entreprise"
+- [ ] Ajouter zones de service : Chartres, Courville-sur-Eure, Dreux, Paris
+- [ ] Activer mode SAB (masquer adresse)
+- [ ] Créer lien court avis (g.page/[profil]/review)
+- [ ] Obtenir 3-5 avis Google
 
 ### Améliorations souhaitables
 
 - [ ] **Supprimer `main.js`** : doublon du code inline, non référencé
 - [ ] **Articles pilier** : 2-3 articles long-format ciblant "automatisation process PME" (awareness-stage, principal levier trafic organique restant)
+- [ ] **Landing page Chartres** : `/consultant-automatisation-chartres` avec contenu local unique
+- [ ] **Citations** : s'inscrire sur Kompass France + Pages Jaunes (possible sans SIRET)
+- [ ] **Malt.fr** : créer un profil consultant (citation + visibilité directe)
 - [ ] **Google Analytics** : aucun tracking en place
-- [ ] **IndexNow** : implémenter pour Bing/Yandex
 - [ ] **Valider schema** sur https://search.google.com/test/rich-results

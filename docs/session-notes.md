@@ -322,7 +322,16 @@ Corrections implémentées :
 
 ---
 
-## Commits de la session (26 mai 2026)
+### 11. Fix erreur GSC — SoftwareApplication (27 mai 2026)
+
+Google Search Console a signalé une erreur : "Il faut indiquer offers, review ou aggregateRating" sur les 4 produits en `SoftwareApplication`. Google exige ces champs pour valider le rich result, même si le schema.org standard ne les impose pas.
+
+- **SoftwareApplication → WebSite** : les 4 produits (Not'Air, Propulse, Cursus, Tell Me Hall) passés en type neutre `WebSite` pour supprimer l'erreur sans ajouter de faux prix/avis
+- Description GBP optimisée fournie (746 caractères)
+
+---
+
+## Commits de la session (26-27 mai 2026)
 
 | Hash | Message |
 |---|---|
@@ -335,17 +344,20 @@ Corrections implémentées :
 | `0f5c5f9` | Fix schema : type errors, datePublished, Propulse URL, Product types |
 | `2ac1faa` | docs : mise à jour notes de session |
 | `5949a36` | Local SEO : adresse, téléphone, zone d'intervention, schema geo |
+| `ab291f1` | docs : mise à jour session notes — local SEO |
+| `b024fe6` | Schema : produits simplifiés en SoftwareApplication |
+| `23be2f1` | Fix GSC : SoftwareApplication → WebSite pour éviter erreur offers/review |
 
 ---
 
-## Score SEO estimé après session
+## Score SEO estimé après sessions
 
-| Catégorie | Avant | Après |
+| Catégorie | Avant (26 mai) | Après |
 |-----------|-------|-------|
 | Technical SEO | 54 | ~72 |
 | Content Quality (E-E-A-T) | 35 | ~58 |
 | On-Page SEO | 55 | ~72 |
-| Schema / Structured Data | 10 | ~80 |
+| Schema / Structured Data | 10 | ~78 |
 | Performance (CWV) | 35 | ~60 |
 | AI Search Readiness (GEO) | 31 | ~50 |
 | Images | 20 | ~40 |
@@ -363,11 +375,13 @@ Corrections implémentées :
 ### Côté GBP (à faire par l'utilisateur)
 
 - [x] Profil GBP créé (Knowledge Graph ID : /g/11z3wqhs5_)
+- [x] Description GBP rédigée et fournie (746 caractères)
 - [ ] Vérifier catégorie primaire : "Conseil en gestion d'entreprise"
 - [ ] Ajouter zones de service : Chartres, Courville-sur-Eure, Dreux, Paris
 - [ ] Activer mode SAB (masquer adresse)
 - [ ] Créer lien court avis (g.page/[profil]/review)
 - [ ] Obtenir 3-5 avis Google
+- [ ] Valider correction erreur données structurées dans GSC
 
 ### Améliorations souhaitables
 
@@ -377,4 +391,3 @@ Corrections implémentées :
 - [ ] **Citations** : s'inscrire sur Kompass France + Pages Jaunes (possible sans SIRET)
 - [ ] **Malt.fr** : créer un profil consultant (citation + visibilité directe)
 - [ ] **Google Analytics** : aucun tracking en place
-- [ ] **Valider schema** sur https://search.google.com/test/rich-results

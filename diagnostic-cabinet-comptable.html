@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pré-diagnostic des flux chronophages | Centurio Stratégie</title>
+  <meta name="description" content="Identifiez en moins de 2 minutes les flux clients qui ralentissent votre cabinet. Pré-diagnostic immédiat, sans engagement."/>
+  <link rel="icon" href="/favicon.ico" sizes="48x48"/>
+  <link rel="canonical" href="https://centuriostrategie.com/diagnostic-cabinet-comptable"/>
+  <meta name="robots" content="noindex"/>
+
+  <link rel="stylesheet" href="/static/styles.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Manrope', sans-serif; background-color: #1c1c1e; color: #E1E1E1; }
+    h1, h2, h3 { font-family: 'Cormorant Garamond', serif; }
+    ::selection { background-color: #D4AF37; color: #1A1A1A; }
+
+    .nav-glass {
+      background: rgba(18,18,18,0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    /* ─── Question blocks ─── */
+    .q-block {
+      padding: 2.5rem 0;
+      border-bottom: 1px solid rgba(212,175,55,0.08);
+      position: relative;
+    }
+    .q-block:last-child { border-bottom: none; }
+    .q-label {
+      display: block;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+      color: #D4AF37;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+    .q-text {
+      font-size: 1rem;
+      color: #E1E1E1;
+      margin-bottom: 1.5rem;
+      line-height: 1.55;
+      font-weight: 400;
+    }
+    .q-hint {
+      font-size: 0.72rem;
+      color: #666666;
+      margin-top: -1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    /* ─── Chips (multi-select) ─── */
+    .chips-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.45rem 1rem;
+      border: 1px solid rgba(212,175,55,0.2);
+      background: transparent;
+      color: #8E8E8E;
+      cursor: pointer;
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+      user-select: none;
+      line-height: 1.4;
+    }
+    .chip:hover { border-color: rgba(212,175,55,0.45); color: #E1E1E1; }
+    .chip.sel { border-color: #D4AF37; background: rgba(212,175,55,0.08); color: #D4AF37; }
+
+    /* ─── Radio-style single select ─── */
+    .radio-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    @media (min-width: 600px) { .radio-group { flex-direction: row; flex-wrap: wrap; } }
+    .radio-opt {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.55rem 1.1rem;
+      border: 1px solid rgba(212,175,55,0.2);
+      background: transparent;
+      color: #8E8E8E;
+      cursor: pointer;
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+      user-select: none;
+      text-align: left;
+    }
+    .radio-opt:hover { border-color: rgba(212,175,55,0.45); color: #E1E1E1; }
+    .radio-opt.sel { border-color: #D4AF37; background: rgba(212,175,55,0.08); color: #D4AF37; }
+
+    /* ─── Flow category cards ─── */
+    .flow-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 0.75rem;
+    }
+    .flow-card {
+      padding: 1.1rem 1.25rem;
+      border: 1px solid rgba(212,175,55,0.15);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .flow-card:hover { border-color: rgba(212,175,55,0.4); }
+    .flow-card.sel { border-color: #D4AF37; background: rgba(212,175,55,0.06); }
+    .card-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #E1E1E1;
+      margin-bottom: 0.3rem;
+      transition: color 0.15s;
+      font-family: 'Manrope', sans-serif;
+    }
+    .flow-card.sel .card-title { color: #D4AF37; }
+    .card-desc { font-size: 0.73rem; color: #666666; line-height: 1.55; font-family: 'Manrope', sans-serif; }
+    .flow-card.sel .card-desc { color: #8E8E8E; }
+
+    /* ─── Dynamic Q4 ─── */
+    #q4-section { display: none; }
+    .sub-q-block {
+      padding-top: 2rem;
+      margin-top: 2rem;
+      border-top: 1px solid rgba(212,175,55,0.08);
+    }
+    .dynamic-textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(212,175,55,0.2);
+      color: #E1E1E1;
+      padding: 0.75rem;
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.82rem;
+      resize: vertical;
+      min-height: 80px;
+      transition: border-color 0.2s;
+    }
+    .dynamic-textarea:focus { outline: none; border-color: rgba(212,175,55,0.5); }
+    .dynamic-textarea::placeholder { color: #555555; }
+
+    /* ─── Generate button ─── */
+    #btn-generate {
+      background: linear-gradient(135deg,#a8873a 0%,#c9a84c 40%,#a8873a 60%,#7a5a1e 100%);
+      color: #1A1A1A;
+      padding: 1rem 2.5rem;
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s, filter 0.2s;
+      display: block;
+    }
+    #btn-generate:disabled { opacity: 0.3; cursor: not-allowed; }
+    #btn-generate:not(:disabled):hover { filter: brightness(1.1); }
+
+    /* ─── Loading ─── */
+    #loading-block { display: none; }
+    .loading-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      background: #D4AF37;
+      border-radius: 50%;
+      margin: 0 3px;
+      animation: blink 1.2s infinite both;
+    }
+    .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+    .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes blink { 0%,80%,100%{opacity:0.15} 40%{opacity:1} }
+
+    /* ─── Result ─── */
+    #result-section { display: none; }
+    .result-block {
+      padding: 1.25rem 1.25rem 1.25rem 1.5rem;
+      border-left: 2px solid rgba(212,175,55,0.4);
+      margin-bottom: 1.25rem;
+    }
+    .result-block-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      color: #D4AF37;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .result-block-text {
+      color: #A0A0A0;
+      line-height: 1.8;
+      font-size: 0.855rem;
+      white-space: pre-line;
+    }
+
+    /* ─── Contact form ─── */
+    #contact-section { display: none; }
+    .form-field {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(212,175,55,0.2);
+      color: #E1E1E1;
+      padding: 0.75rem;
+      width: 100%;
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.875rem;
+      transition: border-color 0.2s;
+      display: block;
+    }
+    .form-field:focus { outline: none; border-color: rgba(212,175,55,0.5); }
+    .form-field::placeholder { color: #555555; }
+    .field-label {
+      display: block;
+      font-size: 0.7rem;
+      color: #8E8E8E;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+    }
+    #btn-contact {
+      background: linear-gradient(135deg,#a8873a 0%,#c9a84c 40%,#a8873a 60%,#7a5a1e 100%);
+      color: #1A1A1A;
+      padding: 0.9rem 2rem;
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: filter 0.2s, opacity 0.2s;
+    }
+    #btn-contact:disabled { opacity: 0.5; cursor: not-allowed; }
+    #btn-contact:not(:disabled):hover { filter: brightness(1.1); }
+
+    .divider { border: none; border-top: 1px solid rgba(212,175,55,0.08); margin: 0; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    @media (max-width: 520px) { .form-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- ─── Header ─────────────────────────────────────────────────────────────── -->
+<header class="fixed top-0 w-full z-50 nav-glass border-b border-white/[0.06]">
+  <nav class="flex justify-between items-center max-w-5xl mx-auto px-8 h-20">
+    <a href="/" style="text-decoration:none; display:flex; align-items:center; gap:0;">
+      <img src="/logo.png" alt="Centurio" width="42" height="42" style="height:38px;width:auto;"/>
+      <span style="font-family:'Cormorant Garamond',serif; font-size:1.15rem; font-weight:600; letter-spacing:0.06em; margin-left:-3px; background:linear-gradient(to right,#d5bd77,#b08a45); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;" class="hidden sm:block">enturio Stratégie</span>
+    </a>
+    <a href="/" style="font-size:0.7rem; color:#8E8E8E; text-decoration:none; letter-spacing:0.12em; text-transform:uppercase; font-weight:500;">
+      ← Retour au site
+    </a>
+  </nav>
+</header>
+
+<main style="padding-top:80px;">
+
+  <!-- ─── Intro ──────────────────────────────────────────────────────────── -->
+  <section style="background:#0d0d0d; padding:3.5rem 0 3rem;">
+    <div class="max-w-5xl mx-auto px-8">
+      <span style="font-size:0.65rem; text-transform:uppercase; letter-spacing:0.28em; color:#D4AF37; display:block; margin-bottom:1rem; font-weight:600;">Outil de diagnostic</span>
+      <h1 style="font-family:'Cormorant Garamond',serif; font-size:clamp(1.75rem,4vw,2.5rem); font-weight:600; color:#E1E1E1; margin-bottom:1rem; line-height:1.25; letter-spacing:-0.01em;">
+        Pré-diagnostic des flux chronophages du cabinet
+      </h1>
+      <p style="color:#A0A0A0; font-size:0.9rem; max-width:600px; line-height:1.7; margin-bottom:1rem;">
+        Répondez à quelques questions pour identifier les flux clients qui pourraient être simplifiés ou automatisés.
+      </p>
+      <p style="font-size:0.7rem; color:#555555; letter-spacing:0.06em;">
+        Résultat immédiat &nbsp;·&nbsp; Sans engagement &nbsp;·&nbsp; Moins de 2 minutes
+      </p>
+    </div>
+  </section>
+
+  <hr class="divider"/>
+
+  <!-- ─── Diagnostic Form ─────────────────────────────────────────────────── -->
+  <section id="diagnostic-form" style="background:#1c1c1e; padding:2rem 0 3rem;">
+    <div class="max-w-5xl mx-auto px-8">
+
+      <!-- Q1 — Outils -->
+      <div class="q-block">
+        <span class="q-label">Question 1 — Outils utilisés</span>
+        <p class="q-text">Quels outils utilisez-vous principalement dans votre cabinet ou avec vos clients&nbsp;?</p>
+        <p class="q-hint">Plusieurs réponses possibles</p>
+        <div class="chips-group" id="q1-chips">
+          <button class="chip" data-group="q1" data-value="Pennylane">Pennylane</button>
+          <button class="chip" data-group="q1" data-value="Sage">Sage</button>
+          <button class="chip" data-group="q1" data-value="Cegid">Cegid</button>
+          <button class="chip" data-group="q1" data-value="ACD">ACD</button>
+          <button class="chip" data-group="q1" data-value="Tiime">Tiime</button>
+          <button class="chip" data-group="q1" data-value="Excel">Excel</button>
+          <button class="chip" data-group="q1" data-value="Google Drive / SharePoint">Google Drive / SharePoint</button>
+          <button class="chip" data-group="q1" data-value="CRM client">CRM client</button>
+          <button class="chip" data-group="q1" data-value="Outil métier client">Outil métier client</button>
+          <button class="chip" data-group="q1" data-value="Autre">Autre</button>
+        </div>
+      </div>
+
+      <!-- Q2 — Pertes de temps -->
+      <div class="q-block">
+        <span class="q-label">Question 2 — Pertes de temps</span>
+        <p class="q-text">Où perdez-vous le plus de temps aujourd'hui avec les données transmises par vos clients&nbsp;?</p>
+        <p class="q-hint">Plusieurs réponses possibles</p>
+        <div class="chips-group" id="q2-chips">
+          <button class="chip" data-group="q2" data-value="Relancer les clients pour obtenir les pièces">Relancer les clients pour obtenir les pièces</button>
+          <button class="chip" data-group="q2" data-value="Corriger des fichiers Excel">Corriger des fichiers Excel</button>
+          <button class="chip" data-group="q2" data-value="Reprendre des factures mal renseignées">Reprendre des factures mal renseignées</button>
+          <button class="chip" data-group="q2" data-value="Vérifier la TVA ou les informations légales">Vérifier la TVA ou les informations légales</button>
+          <button class="chip" data-group="q2" data-value="Ressaisir des données entre plusieurs outils">Ressaisir des données entre plusieurs outils</button>
+          <button class="chip" data-group="q2" data-value="Retrouver les bons justificatifs">Retrouver les bons justificatifs</button>
+          <button class="chip" data-group="q2" data-value="Suivre les paiements, acomptes ou règlements">Suivre les paiements, acomptes ou règlements</button>
+          <button class="chip" data-group="q2" data-value="Obtenir une analytique fiable">Obtenir une analytique fiable</button>
+          <button class="chip" data-group="q2" data-value="Autre">Autre</button>
+        </div>
+      </div>
+
+      <!-- Q3 — Catégories de flux -->
+      <div class="q-block">
+        <span class="q-label">Question 3 — Catégories de flux</span>
+        <p class="q-text">Sur quels types de flux ces difficultés apparaissent-elles le plus souvent&nbsp;?</p>
+        <p class="q-hint">Plusieurs réponses possibles</p>
+        <div class="flow-cards" id="q3-cards">
+          <div class="flow-card" data-group="q3" data-value="Stocks, logistique ou production">
+            <div class="card-title">Stocks, logistique ou production</div>
+            <div class="card-desc">Inventaires, achats, ventes, valeur du stock, coûts de revient.</div>
+          </div>
+          <div class="flow-card" data-group="q3" data-value="Chantiers, projets ou temps passé">
+            <div class="card-title">Chantiers, projets ou temps passé</div>
+            <div class="card-desc">Heures, achats, marge, avancement, rentabilité projet.</div>
+          </div>
+          <div class="flow-card" data-group="q3" data-value="CRM, devis ou facturation commerciale">
+            <div class="card-title">CRM, devis ou facturation commerciale</div>
+            <div class="card-desc">Doublons, TVA, devis, données commerciales, facturation spécifique.</div>
+          </div>
+          <div class="flow-card" data-group="q3" data-value="Circulation d'information entre outils">
+            <div class="card-title">Circulation d'information entre outils</div>
+            <div class="card-desc">Drive, SharePoint, emails, outils métiers, logiciel comptable.</div>
+          </div>
+          <div class="flow-card" data-group="q3" data-value="Multi-entités ou groupes de sociétés">
+            <div class="card-title">Multi-entités ou groupes de sociétés</div>
+            <div class="card-desc">Intercos, reporting, trésorerie consolidée, plusieurs sociétés.</div>
+          </div>
+          <div class="flow-card" data-group="q3" data-value="Autre">
+            <div class="card-title">Autre</div>
+            <div class="card-desc">Un autre type de flux problématique.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q4 — Dynamic -->
+      <div id="q4-section" class="q-block">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Q5 — Temps perdu -->
+      <div class="q-block">
+        <span class="q-label">Question 5 — Temps perdu</span>
+        <p class="q-text">Sur les dossiers concernés, combien de temps pensez-vous perdre chaque mois à corriger, relancer ou ressaisir&nbsp;?</p>
+        <div class="radio-group" id="q5-opts">
+          <button class="radio-opt" data-group="q5" data-value="Moins de 2 h">Moins de 2 h</button>
+          <button class="radio-opt" data-group="q5" data-value="2 à 5 h">2 à 5 h</button>
+          <button class="radio-opt" data-group="q5" data-value="5 à 10 h">5 à 10 h</button>
+          <button class="radio-opt" data-group="q5" data-value="10 à 20 h">10 à 20 h</button>
+          <button class="radio-opt" data-group="q5" data-value="Plus de 20 h">Plus de 20 h</button>
+          <button class="radio-opt" data-group="q5" data-value="Difficile à estimer">Difficile à estimer</button>
+        </div>
+      </div>
+
+      <!-- Q6 — Résultat recherché -->
+      <div class="q-block">
+        <span class="q-label">Question 6 — Résultat recherché</span>
+        <p class="q-text">Quel résultat vous serait le plus utile&nbsp;?</p>
+        <p class="q-hint">Plusieurs réponses possibles</p>
+        <div class="chips-group" id="q6-chips">
+          <button class="chip" data-group="q6" data-value="Moins de relances clients">Moins de relances clients</button>
+          <button class="chip" data-group="q6" data-value="Moins de ressaisie manuelle">Moins de ressaisie manuelle</button>
+          <button class="chip" data-group="q6" data-value="Des données plus propres avant intégration">Des données plus propres avant intégration</button>
+          <button class="chip" data-group="q6" data-value="Des alertes en cas d'anomalie">Des alertes en cas d'anomalie</button>
+          <button class="chip" data-group="q6" data-value="Une meilleure visibilité par dossier">Une meilleure visibilité par dossier</button>
+          <button class="chip" data-group="q6" data-value="Des fichiers clients plus exploitables">Des fichiers clients plus exploitables</button>
+          <button class="chip" data-group="q6" data-value="Une connexion plus fiable entre les outils clients et le cabinet">Une connexion plus fiable entre les outils clients et le cabinet</button>
+        </div>
+      </div>
+
+      <!-- Generate -->
+      <div style="padding-top:2rem; text-align:center;">
+        <p id="generate-hint" style="font-size:0.72rem; color:#555555; margin-bottom:1.25rem; display:none;">
+          Répondez aux questions essentielles pour activer la génération (outils, pertes de temps, types de flux, temps perdu, résultat recherché).
+        </p>
+        <button id="btn-generate" disabled>Générer mon pré-diagnostic</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── Loading ────────────────────────────────────────────────────────── -->
+  <div id="loading-block" style="padding:3rem 0; text-align:center;">
+    <div style="margin-bottom:1rem;">
+      <span class="loading-dot"></span>
+      <span class="loading-dot"></span>
+      <span class="loading-dot"></span>
+    </div>
+    <p style="font-size:0.8rem; color:#8E8E8E; letter-spacing:0.06em;">Analyse de vos réponses en cours…</p>
+  </div>
+
+  <!-- ─── Result ──────────────────────────────────────────────────────────── -->
+  <section id="result-section">
+    <hr class="divider"/>
+    <div style="background:#121212; padding:3rem 0;">
+      <div class="max-w-5xl mx-auto px-8">
+        <span style="font-size:0.65rem; text-transform:uppercase; letter-spacing:0.28em; color:#D4AF37; display:block; margin-bottom:1rem; font-weight:600;">Résultat</span>
+        <h2 style="font-family:'Cormorant Garamond',serif; font-size:clamp(1.5rem,3vw,2rem); font-weight:600; color:#E1E1E1; margin-bottom:2rem;">
+          Votre pré-diagnostic
+        </h2>
+        <div id="result-content">
+          <!-- Populated by JS -->
+        </div>
+        <div id="result-error" style="display:none; padding:1.25rem; border:1px solid rgba(212,175,55,0.2); color:#A0A0A0; font-size:0.875rem; line-height:1.7;">
+          Le pré-diagnostic n'a pas pu être généré pour le moment. Vous pouvez tout de même laisser vos coordonnées pour être recontacté.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Contact ─────────────────────────────────────────────────────────── -->
+  <section id="contact-section">
+    <hr class="divider"/>
+    <div style="background:#1c1c1e; padding:3rem 0 4rem;">
+      <div class="max-w-5xl mx-auto px-8" style="max-width:680px;">
+        <span style="font-size:0.65rem; text-transform:uppercase; letter-spacing:0.28em; color:#D4AF37; display:block; margin-bottom:0.75rem; font-weight:600;">Contact</span>
+        <h2 style="font-family:'Cormorant Garamond',serif; font-size:clamp(1.4rem,3vw,1.9rem); font-weight:600; color:#E1E1E1; margin-bottom:0.75rem;">
+          Vous souhaitez identifier le premier flux à automatiser&nbsp;?
+        </h2>
+        <p style="color:#8E8E8E; font-size:0.85rem; line-height:1.7; margin-bottom:2rem;">
+          Laissez vos coordonnées et je vous recontacterai pour échanger sur un cas concret de votre cabinet.
+        </p>
+
+        <form id="contact-form" action="https://formspree.io/f/mgonjyal" method="POST" novalidate>
+          <input type="hidden" name="_subject" value="Pré-diagnostic cabinet comptable — Centurio"/>
+          <input type="hidden" name="source_page" value="diagnostic-cabinet-comptable"/>
+          <input type="hidden" name="diagnostic_reponses" id="f-answers"/>
+          <input type="hidden" name="diagnostic_resultat" id="f-result"/>
+          <!-- Honeypot anti-spam -->
+          <input type="text" name="_gotcha" style="display:none;" tabindex="-1" autocomplete="off"/>
+
+          <div class="form-grid">
+            <div>
+              <label class="field-label" for="f-prenom">Prénom <span style="color:#D4AF37;">*</span></label>
+              <input class="form-field" id="f-prenom" name="prenom" type="text" required maxlength="100" placeholder="Votre prénom"/>
+            </div>
+            <div>
+              <label class="field-label" for="f-email">Email <span style="color:#D4AF37;">*</span></label>
+              <input class="form-field" id="f-email" name="email" type="email" required maxlength="200" placeholder="votre@cabinet.fr"/>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div>
+              <label class="field-label" for="f-tel">Téléphone</label>
+              <input class="form-field" id="f-tel" name="telephone" type="tel" maxlength="30" placeholder="06 xx xx xx xx"/>
+            </div>
+            <div>
+              <label class="field-label" for="f-cabinet">Nom du cabinet</label>
+              <input class="form-field" id="f-cabinet" name="cabinet" type="text" maxlength="150" placeholder="Cabinet Dupont"/>
+            </div>
+          </div>
+
+          <div style="margin-bottom:1.5rem;">
+            <label class="field-label" for="f-message">Message / précision</label>
+            <textarea class="form-field" id="f-message" name="message" maxlength="1000" rows="3" placeholder="Précisez un dossier particulier, un outil, une situation…" style="resize:vertical;"></textarea>
+          </div>
+
+          <button id="btn-contact" type="submit">Être recontacté</button>
+
+          <p id="contact-error" style="display:none; margin-top:0.75rem; font-size:0.77rem; color:#CC5555;">
+            Une erreur est survenue. Réessayez ou contactez-nous directement à guyonloic89@gmail.com.
+          </p>
+        </form>
+
+        <div id="contact-success" style="display:none; padding:1.5rem; border:1px solid rgba(212,175,55,0.3); background:rgba(212,175,55,0.04);">
+          <p style="color:#D4AF37; font-size:0.875rem; font-weight:600; margin-bottom:0.4rem;">Merci, votre demande a bien été envoyée.</p>
+          <p style="color:#8E8E8E; font-size:0.8rem;">Je reviendrai vers vous pour échanger sur votre situation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ─── Footer minimal ──────────────────────────────────────────────────────── -->
+<footer style="background:#0d0d0d; border-top:1px solid rgba(212,175,55,0.08); padding:1.5rem 0;">
+  <div class="max-w-5xl mx-auto px-8" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+    <span style="font-size:0.7rem; color:#555555;">© 2026 Centurio Stratégie</span>
+    <a href="/" style="font-size:0.7rem; color:#666666; text-decoration:none;">centuriostrategie.com</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // ─── Sub-question data ────────────────────────────────────────────────────
+  const SUB_Q = {
+    'Stocks, logistique ou production': {
+      text: "Qu'est-ce qui pose le plus de problème sur ces dossiers ?",
+      opts: ['Suivi du stock en temps réel','Valorisation du stock','Rapprochement achats / ventes / stock','Calcul des coûts de revient','Données transmises trop tard ou sous mauvais format','Autre']
+    },
+    'Chantiers, projets ou temps passé': {
+      text: "Qu'est-ce qui rend le suivi difficile ?",
+      opts: ['Heures renseignées trop tard','Achats mal rattachés au chantier ou projet','Marge connue trop tard','Données dispersées entre plusieurs outils','Manque de visibilité pendant l\'exécution','Autre']
+    },
+    'CRM, devis ou facturation commerciale': {
+      text: "Qu'est-ce qui génère le plus de corrections sur ce flux ?",
+      opts: ['Doublons clients','Champs incomplets','Taux de TVA à corriger','Devis mal transformés en factures','Facturation variable ou spécifique','Données commerciales mal synchronisées','Autre']
+    },
+    'Circulation d\'information entre outils': {
+      text: "Où l'information circule-t-elle le moins bien ?",
+      opts: ['Entre le client et le cabinet','Entre outil métier et logiciel comptable','Entre emails et Drive / SharePoint','Entre paiement et équipe opérationnelle','Entre CRM et facturation','Autre']
+    },
+    'Multi-entités ou groupes de sociétés': {
+      text: "Quel sujet est le plus difficile à suivre ?",
+      opts: ['Flux intercos','Reporting groupe','Trésorerie consolidée','Écritures ou factures entre sociétés','Vue globale des performances','Autre']
+    },
+    'Autre': {
+      text: "Pouvez-vous préciser le flux qui vous fait perdre du temps ?",
+      opts: null
+    }
+  };
+
+  // ─── State ───────────────────────────────────────────────────────────────
+  const s = {
+    tools: new Set(),
+    painPoints: new Set(),
+    flowCategories: new Set(),
+    priorityFlow: '',
+    dynamicDetails: new Set(),
+    dynamicText: '',
+    timeLost: '',
+    desiredOutcomes: new Set(),
+    generatedResult: ''
+  };
+
+  // ─── Helpers ─────────────────────────────────────────────────────────────
+  function esc(str) {
+    return String(str)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+  }
+
+  function $id(id) { return document.getElementById(id); }
+
+  // ─── Multi-select chips ───────────────────────────────────────────────────
+  function initChipGroup(groupSelector, stateSet, onChange) {
+    document.querySelectorAll(groupSelector).forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = btn.dataset.value;
+        if (stateSet.has(val)) {
+          stateSet.delete(val);
+          btn.classList.remove('sel');
+        } else {
+          stateSet.add(val);
+          btn.classList.add('sel');
+        }
+        if (onChange) onChange();
+      });
+    });
+  }
+
+  // ─── Single-select (Q5) ───────────────────────────────────────────────────
+  function initRadioGroup(groupSelector, onSelect) {
+    document.querySelectorAll(groupSelector).forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll(groupSelector).forEach(b => b.classList.remove('sel'));
+        btn.classList.add('sel');
+        s.timeLost = btn.dataset.value;
+        if (onSelect) onSelect();
+      });
+    });
+  }
+
+  // ─── Q3 flow cards ───────────────────────────────────────────────────────
+  function initFlowCards() {
+    document.querySelectorAll('[data-group="q3"]').forEach(card => {
+      card.addEventListener('click', () => {
+        const val = card.dataset.value;
+        if (s.flowCategories.has(val)) {
+          s.flowCategories.delete(val);
+          card.classList.remove('sel');
+        } else {
+          s.flowCategories.add(val);
+          card.classList.add('sel');
+        }
+        s.priorityFlow = '';
+        s.dynamicDetails = new Set();
+        s.dynamicText = '';
+        renderQ4();
+        updateGenBtn();
+      });
+    });
+  }
+
+  // ─── Dynamic Q4 ───────────────────────────────────────────────────────────
+  function renderQ4() {
+    const section = $id('q4-section');
+    const cats = [...s.flowCategories];
+
+    if (cats.length === 0) {
+      section.style.display = 'none';
+      section.innerHTML = '';
+      return;
+    }
+
+    section.style.display = 'block';
+    let html = '';
+
+    if (cats.length > 1) {
+      // Priority picker
+      html += `
+        <span class="q-label">Question complémentaire</span>
+        <p class="q-text">Parmi les flux sélectionnés, lequel est le plus pénible aujourd'hui&nbsp;?</p>
+        <div class="chips-group" id="priority-chips">
+          ${cats.map(cat => `<button class="chip${s.priorityFlow === cat ? ' sel' : ''}" data-priority="${esc(cat)}">${esc(cat)}</button>`).join('')}
+        </div>
+      `;
+    } else {
+      s.priorityFlow = cats[0];
+    }
+
+    if (s.priorityFlow) {
+      const sq = SUB_Q[s.priorityFlow];
+      if (sq) {
+        html += renderSubQHTML(sq);
+      }
+    }
+
+    section.innerHTML = html;
+
+    // Attach priority picker events
+    section.querySelectorAll('[data-priority]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        s.priorityFlow = btn.dataset.priority;
+        s.dynamicDetails = new Set();
+        s.dynamicText = '';
+        renderQ4();
+      });
+    });
+
+    // Attach dynamic detail chip events
+    section.querySelectorAll('[data-dynopt]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = btn.dataset.dynopt;
+        if (s.dynamicDetails.has(val)) {
+          s.dynamicDetails.delete(val);
+          btn.classList.remove('sel');
+        } else {
+          s.dynamicDetails.add(val);
+          btn.classList.add('sel');
+        }
+      });
+    });
+
+    // Attach free-text textarea event
+    const dynTa = section.querySelector('[data-dyntext]');
+    if (dynTa) {
+      dynTa.value = s.dynamicText;
+      dynTa.addEventListener('input', () => { s.dynamicText = dynTa.value; });
+    }
+  }
+
+  function renderSubQHTML(sq) {
+    let html = `<div class="sub-q-block">
+      <span class="q-label">Question spéciale</span>
+      <p class="q-text">${esc(sq.text)}</p>`;
+
+    if (sq.opts === null) {
+      html += `<textarea class="dynamic-textarea" data-dyntext maxlength="500" placeholder="Décrivez le flux problématique…"></textarea>`;
+    } else {
+      html += `<div class="chips-group">`;
+      sq.opts.forEach(opt => {
+        html += `<button class="chip${s.dynamicDetails.has(opt) ? ' sel' : ''}" data-dynopt="${esc(opt)}">${esc(opt)}</button>`;
+      });
+      html += `</div>`;
+    }
+
+    html += `</div>`;
+    return html;
+  }
+
+  // ─── Generate button state ────────────────────────────────────────────────
+  function updateGenBtn() {
+    const btn = $id('btn-generate');
+    const hint = $id('generate-hint');
+    const valid = s.tools.size > 0
+      && s.painPoints.size > 0
+      && s.flowCategories.size > 0
+      && s.timeLost
+      && s.desiredOutcomes.size > 0;
+
+    btn.disabled = !valid;
+    if (hint) {
+      hint.style.display = valid ? 'none' : 'block';
+    }
+  }
+
+  // ─── Format result ────────────────────────────────────────────────────────
+  function formatResult(text) {
+    // Split on numbered section headings
+    const parts = text.split(/(?=^\d+\.\s)/m).filter(p => p.trim());
+
+    if (parts.length < 2) {
+      return `<div style="color:#A0A0A0;line-height:1.8;font-size:0.875rem;white-space:pre-line;">${esc(text)}</div>`;
+    }
+
+    return parts.map(part => {
+      const nl = part.indexOf('\n');
+      if (nl === -1) return `<div class="result-block"><div class="result-block-title">${esc(part.trim())}</div></div>`;
+      const title = part.slice(0, nl).trim();
+      const body = part.slice(nl + 1).trim();
+      return `<div class="result-block">
+        <div class="result-block-title">${esc(title)}</div>
+        <div class="result-block-text">${esc(body)}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // ─── Generate diagnostic ──────────────────────────────────────────────────
+  async function generate() {
+    const formSection = $id('diagnostic-form');
+    const loadingBlock = $id('loading-block');
+    const resultSection = $id('result-section');
+    const contactSection = $id('contact-section');
+
+    // Show loading
+    formSection.style.opacity = '0.4';
+    formSection.style.pointerEvents = 'none';
+    loadingBlock.style.display = 'block';
+    $id('btn-generate').disabled = true;
+
+    const payload = {
+      tools: [...s.tools],
+      painPoints: [...s.painPoints],
+      flowCategories: [...s.flowCategories],
+      priorityFlow: s.priorityFlow || [...s.flowCategories].join(', '),
+      dynamicDetails: s.dynamicDetails.size > 0 ? [...s.dynamicDetails] : (s.dynamicText ? [s.dynamicText] : []),
+      timeLost: s.timeLost,
+      desiredOutcomes: [...s.desiredOutcomes]
+    };
+
+    try {
+      const res = await fetch('/api/generate-diagnostic', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) throw new Error('API ' + res.status);
+
+      const data = await res.json();
+      s.generatedResult = data.result || '';
+
+      $id('result-content').innerHTML = formatResult(s.generatedResult);
+      $id('result-error').style.display = 'none';
+
+    } catch (err) {
+      console.error(err);
+      $id('result-content').innerHTML = '';
+      $id('result-error').style.display = 'block';
+      s.generatedResult = '';
+    } finally {
+      loadingBlock.style.display = 'none';
+      formSection.style.opacity = '1';
+      formSection.style.pointerEvents = 'auto';
+      updateGenBtn();
+    }
+
+    resultSection.style.display = 'block';
+    contactSection.style.display = 'block';
+    resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ─── Contact form ─────────────────────────────────────────────────────────
+  function initContactForm() {
+    const form = $id('contact-form');
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const prenom = $id('f-prenom').value.trim();
+      const email = $id('f-email').value.trim();
+
+      if (!prenom || !email || !email.includes('@')) {
+        return;
+      }
+
+      // Fill hidden fields
+      $id('f-answers').value = JSON.stringify({
+        outils: [...s.tools],
+        pertes_de_temps: [...s.painPoints],
+        categories_flux: [...s.flowCategories],
+        flux_prioritaire: s.priorityFlow,
+        details_flux: [...s.dynamicDetails, s.dynamicText].filter(Boolean),
+        temps_perdu: s.timeLost,
+        resultats_recherches: [...s.desiredOutcomes]
+      }, null, 2);
+
+      $id('f-result').value = s.generatedResult;
+
+      const btn = $id('btn-contact');
+      btn.disabled = true;
+      btn.textContent = 'Envoi en cours…';
+      $id('contact-error').style.display = 'none';
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (res.ok) {
+          form.style.display = 'none';
+          $id('contact-success').style.display = 'block';
+        } else {
+          throw new Error('Form error');
+        }
+      } catch {
+        btn.disabled = false;
+        btn.textContent = 'Être recontacté';
+        $id('contact-error').style.display = 'block';
+      }
+    });
+  }
+
+  // ─── Init ─────────────────────────────────────────────────────────────────
+  function init() {
+    initChipGroup('[data-group="q1"]', s.tools, updateGenBtn);
+    initChipGroup('[data-group="q2"]', s.painPoints, updateGenBtn);
+    initChipGroup('[data-group="q6"]', s.desiredOutcomes, updateGenBtn);
+    initFlowCards();
+    initRadioGroup('[data-group="q5"]', updateGenBtn);
+
+    $id('btn-generate').addEventListener('click', generate);
+    initContactForm();
+    updateGenBtn();
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+
+})();
+</script>
+</body>
+</html>

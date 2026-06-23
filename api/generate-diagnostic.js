@@ -56,7 +56,7 @@ ${sanitizeArr(desiredOutcomes).join(', ')}
 
 Génère un pré-diagnostic court en français avec exactement cette structure. Commence directement par "1." sans titre général ni introduction :
 
-1. Diagnostic rapide
+1. Situation actuelle
 
 2. Flux prioritaire identifié
 

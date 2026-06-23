@@ -73,7 +73,31 @@ Contraintes : 200 à 350 mots maximum. Ton professionnel. Pas de promesse exagé
       messages: [{ role: 'user', content: userPrompt }]
     });
 
-    return res.status(200).json({ result: message.content[0].text });
+    const result = message.content[0].text;
+
+    // Save to Airtable (non-blocking)
+    if (process.env.AIRTABLE_API_KEY) {
+      fetch('https://api.airtable.com/v0/appOWv2uRJ14JI13P/tblc6EBMzNovvoZUB', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${process.env.AIRTABLE_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          records: [{
+            fields: {
+              'Outils': sanitizeArr(tools).join(', '),
+              'Flux prioritaire': sanitizeStr(priorityFlow) || sanitizeArr(flowCategories).join(', '),
+              'Temps perdu': sanitizeStr(timeLost),
+              'Résultats recherchés': sanitizeArr(desiredOutcomes).join(', '),
+              'Résumé': result
+            }
+          }]
+        })
+      }).catch(err => console.error('Airtable save error:', err.message));
+    }
+
+    return res.status(200).json({ result });
 
   } catch (err) {
     console.error('Diagnostic generation error:', err.message || err);

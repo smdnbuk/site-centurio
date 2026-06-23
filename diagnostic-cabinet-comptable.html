@@ -383,7 +383,7 @@
       </div>
 
       <!-- Generate -->
-      <div style="padding-top:2rem; text-align:center;">
+      <div id="generate-wrap" style="padding-top:2rem; text-align:center;">
         <p id="generate-hint" style="font-size:0.72rem; color:#555555; margin-bottom:1.25rem; display:none;">
           Répondez aux questions essentielles pour activer la génération (outils, pertes de temps, types de flux, temps perdu, résultat recherché).
         </p>
@@ -408,9 +408,8 @@
     <hr class="divider"/>
     <div style="background:#121212; padding:3rem 0;">
       <div class="max-w-5xl mx-auto px-8">
-        <span style="font-size:0.65rem; text-transform:uppercase; letter-spacing:0.28em; color:#D4AF37; display:block; margin-bottom:1rem; font-weight:600;">Résultat</span>
         <h2 style="font-family:'Cormorant Garamond',serif; font-size:clamp(1.5rem,3vw,2rem); font-weight:600; color:#E1E1E1; margin-bottom:2rem;">
-          Résumé
+          Compte rendu de votre questionnaire
         </h2>
         <div id="result-content">
           <!-- Populated by JS -->
@@ -805,6 +804,7 @@
       updateGenBtn();
     }
 
+    $id('generate-wrap').style.display = 'none';
     resultSection.style.display = 'block';
     contactSection.style.display = 'block';
     resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });

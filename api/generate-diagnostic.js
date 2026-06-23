@@ -75,35 +75,26 @@ Contraintes : 200 à 350 mots maximum. Ton professionnel. Pas de promesse exagé
 
     const result = message.content[0].text;
 
-    // Save to Airtable
+    // Save to Airtable (non-blocking)
     if (process.env.AIRTABLE_API_KEY) {
-      try {
-        const atRes = await fetch('https://api.airtable.com/v0/appOWv2uRJ14JI13P/tblc6EBMzNovvoZUB', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${process.env.AIRTABLE_API_KEY}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            records: [{
-              fields: {
-                'Outils': sanitizeArr(tools).join(', '),
-                'Flux prioritaire': sanitizeStr(priorityFlow) || sanitizeArr(flowCategories).join(', '),
-                'Temps perdu': sanitizeStr(timeLost),
-                'Résultats recherchés': sanitizeArr(desiredOutcomes).join(', '),
-                'Résumé': result
-              }
-            }]
-          })
-        });
-        const atBody = await atRes.json();
-        if (!atRes.ok) console.error('Airtable error:', JSON.stringify(atBody));
-        else console.log('Airtable saved:', atBody.records?.[0]?.id);
-      } catch (err) {
-        console.error('Airtable fetch error:', err.message);
-      }
-    } else {
-      console.warn('AIRTABLE_API_KEY non définie');
+      fetch('https://api.airtable.com/v0/appOWv2uRJ14JI13P/tblc6EBMzNovvoZUB', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${process.env.AIRTABLE_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          records: [{
+            fields: {
+              'Outils': sanitizeArr(tools).join(', '),
+              'Flux prioritaire': sanitizeStr(priorityFlow) || sanitizeArr(flowCategories).join(', '),
+              'Temps perdu': sanitizeStr(timeLost),
+              'Résultats recherchés': sanitizeArr(desiredOutcomes).join(', '),
+              'Résumé': result
+            }
+          }]
+        })
+      }).catch(err => console.error('Airtable error:', err.message));
     }
 
     return res.status(200).json({ result });

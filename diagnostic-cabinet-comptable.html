@@ -191,12 +191,7 @@
       margin-bottom: 0.5rem;
       font-weight: 600;
     }
-    .result-block-text {
-      color: #A0A0A0;
-      line-height: 1.8;
-      font-size: 0.855rem;
-      white-space: pre-line;
-    }
+    .result-block-text { font-size: 0.855rem; }
 
     /* ─── Contact form ─── */
     #contact-section { display: none; }
@@ -711,15 +706,41 @@
 
   // ─── Format result ────────────────────────────────────────────────────────
   function renderText(str) {
-    // Escape HTML, then convert **bold** to <strong>
-    return esc(str).replace(/\*\*(.+?)\*\*/g, '<strong style="color:#E1E1E1;font-weight:600;">$1</strong>');
+    function inline(s) {
+      return esc(s).replace(/\*\*(.+?)\*\*/g, '<strong style="color:#E1E1E1;font-weight:600;">$1</strong>');
+    }
+
+    const lines = str.split('\n');
+    let html = '';
+    let listBuf = [];
+
+    function flushList() {
+      if (!listBuf.length) return;
+      html += '<ul style="margin:0.3rem 0 0.5rem 1.1rem;color:#A0A0A0;line-height:1.75;">';
+      listBuf.forEach(item => { html += `<li>${inline(item)}</li>`; });
+      html += '</ul>';
+      listBuf = [];
+    }
+
+    lines.forEach(line => {
+      const m = line.match(/^[-*]\s+(.+)/);
+      if (m) {
+        listBuf.push(m[1]);
+      } else {
+        flushList();
+        const t = line.trim();
+        if (t) html += `<p style="margin:0 0 0.4rem;color:#A0A0A0;line-height:1.8;">${inline(t)}</p>`;
+      }
+    });
+    flushList();
+    return html;
   }
 
   function formatResult(text) {
     const parts = text.split(/(?=^\d+\.\s)/m).filter(p => p.trim());
 
     if (parts.length < 2) {
-      return `<div style="color:#A0A0A0;line-height:1.8;font-size:0.875rem;white-space:pre-line;">${renderText(text)}</div>`;
+      return `<div class="result-block-text">${renderText(text)}</div>`;
     }
 
     return parts.map(part => {

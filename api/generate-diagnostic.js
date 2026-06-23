@@ -52,7 +52,7 @@ ${sanitizeStr(timeLost)}
 Résultats recherchés :
 ${sanitizeArr(desiredOutcomes).join(', ')}
 
-Génère un pré-diagnostic court en français avec exactement cette structure (utilise les titres numérotés tels quels) :
+Génère un pré-diagnostic court en français avec exactement cette structure. Commence directement par "1." sans titre général ni introduction :
 
 1. Diagnostic rapide
 
@@ -62,7 +62,7 @@ Génère un pré-diagnostic court en français avec exactement cette structure (
 
 4. Prochaine étape recommandée
 
-Contraintes : 250 à 450 mots maximum. Ton professionnel. Pas de promesse exagérée. Pas de détail technique complet. Ne pas mentionner que le texte est généré par IA. Ne pas utiliser de jargon inutile. Donner envie d'échanger sur un cas réel.`;
+Contraintes : 200 à 350 mots maximum. Ton professionnel. Pas de promesse exagérée. Pas de détail technique complet. Ne pas mentionner que le texte est généré par IA. Ne pas utiliser de jargon inutile. Ne pas ajouter de titre, chapeau ou introduction avant le "1.". Donner envie d'échanger sur un cas réel.`;
 
     const message = await client.messages.create({
       model: 'claude-haiku-4-5-20251001',

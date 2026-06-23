@@ -710,12 +710,16 @@
   }
 
   // ─── Format result ────────────────────────────────────────────────────────
+  function renderText(str) {
+    // Escape HTML, then convert **bold** to <strong>
+    return esc(str).replace(/\*\*(.+?)\*\*/g, '<strong style="color:#E1E1E1;font-weight:600;">$1</strong>');
+  }
+
   function formatResult(text) {
-    // Split on numbered section headings
     const parts = text.split(/(?=^\d+\.\s)/m).filter(p => p.trim());
 
     if (parts.length < 2) {
-      return `<div style="color:#A0A0A0;line-height:1.8;font-size:0.875rem;white-space:pre-line;">${esc(text)}</div>`;
+      return `<div style="color:#A0A0A0;line-height:1.8;font-size:0.875rem;white-space:pre-line;">${renderText(text)}</div>`;
     }
 
     return parts.map(part => {
@@ -725,7 +729,7 @@
       const body = part.slice(nl + 1).trim();
       return `<div class="result-block">
         <div class="result-block-title">${esc(title)}</div>
-        <div class="result-block-text">${esc(body)}</div>
+        <div class="result-block-text">${renderText(body)}</div>
       </div>`;
     }).join('');
   }

@@ -62,7 +62,7 @@ Génère un pré-diagnostic court en français avec exactement cette structure. 
 
 4. Prochaine étape recommandée
 
-Contraintes : 200 à 350 mots maximum. Ton professionnel. Pas de promesse exagérée. Pas de détail technique complet. Ne pas mentionner que le texte est généré par IA. Ne pas utiliser de jargon inutile. Ne pas ajouter de titre, chapeau ou introduction avant le "1.". Donner envie d'échanger sur un cas réel.`;
+Contraintes : 200 à 350 mots maximum. Ton professionnel. Pas de promesse exagérée. Pas de détail technique complet. Ne pas mentionner que le texte est généré par IA. Ne pas utiliser de jargon inutile. Ne pas ajouter de titre, chapeau ou introduction avant le "1.". Ne pas utiliser de tirets longs (–) ni de tirets cadratins (—), utiliser des virgules ou des points à la place. Donner envie d'échanger sur un cas réel.`;
 
     const message = await client.messages.create({
       model: 'claude-haiku-4-5-20251001',

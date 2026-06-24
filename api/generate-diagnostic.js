@@ -88,6 +88,7 @@ Contraintes : 200 à 350 mots maximum. Ton professionnel. Pas de promesse exagé
             fields: {
               'Outils': sanitizeArr(tools).join(', '),
               'Flux prioritaire': sanitizeStr(priorityFlow) || sanitizeArr(flowCategories).join(', '),
+              'Détails flux': Array.isArray(dynamicDetails) ? sanitizeArr(dynamicDetails).join(', ') : sanitizeStr(dynamicDetails),
               'Temps perdu': sanitizeStr(timeLost),
               'Résultats recherchés': sanitizeArr(desiredOutcomes).join(', '),
               'Résumé': result
